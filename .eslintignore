@@ -1,0 +1,6 @@
+/.git
+/.vscode
+/.idea
+/coverage
+/build
+node_modules
