@@ -1,10 +1,9 @@
-let dataBaseStatus = {
-  DATABASE_CONNECT: 'Database connected',
-  DATABASE_ERROR: 'Database connection error',
-  ENTITY_CREATED: 'Entity created',
-  ENTITY_FETCHED: 'Entity fetched',
-  ENTITY_UPDATED: 'Entity updated',
-  ENTITY_DELETED: 'Entity deleted',
-};
+import ControllerConstants from "./controllerConstants";
 
-export { dataBaseStatus };
+class Constants extends ControllerConstants{
+constructor(){
+  super()
+}
+}
+let constants = new Constants()
+export default constants;

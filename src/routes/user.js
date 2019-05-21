@@ -1,4 +1,5 @@
 import express from 'express';
+import * as userController from "../controllers/user";
 
 let router = express.Router();
 
@@ -7,8 +8,6 @@ let router = express.Router();
  * public
  * testing user route
  * */
-router.get('/test', (req, res) => {
-  res.send('user route');
-});
+router.get('/test', userController.createUser);
 
 export default router;
