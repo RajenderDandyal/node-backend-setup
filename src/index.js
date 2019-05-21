@@ -4,15 +4,15 @@ import express from 'express';
 import compression from 'compression';
 import dotEnv from 'dotenv';
 import cors from 'cors';
-import { createConnection } from './db/crud';
-import corsConfig from './utils/corsConfig';
+import crud  from './db/crud';
+import helper from './helper/helper';
 import user from './routes/user';
 
 const app = express();
 const env = dotEnv.config();
 
 // connect to mongodb
-createConnection()
+crud.createConnection()
   .then(res => console.log(res))
   .catch(err => console.log(err));
 
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(compression());
 
 // cors setup
-app.use(cors({ origin: corsConfig }));
+app.use(cors({ origin: helper.corsConfig }));
 
 // routes
 app.use('/api/v1/user', user);

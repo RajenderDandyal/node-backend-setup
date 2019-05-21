@@ -5,5 +5,5 @@ constructor(){
   super()
 }
 }
-let constants = new Constants()
+let constants = new Constants();
 export default constants;
