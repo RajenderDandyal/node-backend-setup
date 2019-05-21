@@ -1,5 +1,6 @@
 import express from 'express';
 import userController from '../controllers/userController';
+import userValidation from "../middlewares/validations/userValidation";
 
 let router = express.Router();
 
@@ -19,11 +20,11 @@ router.get('/test', userController.test);
  * */
 router.post('/test', userController.test);
 /*
- * path /api/v1/user/test
+ * path /api/v1/user/register
  * post
  * public
- * testing user route
+ * register new user
  * */
-router.post('/register', userController.createUser);
+router.post('/register', userValidation.createUser, userController.createUser);
 
 export default router;

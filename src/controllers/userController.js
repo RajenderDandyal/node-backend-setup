@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../models/databaseModel/User';
 import constants from "../constants/constants";
-import userService from "../services/userServices";
+import db from "../db/db";
 import isEmpty from "lodash/isEmpty";
 
 class UserController {
@@ -16,24 +16,15 @@ class UserController {
     let responseObj = {};
     try {
       let data = req.body;
-      console.log("req.body**", req.body);
-      // call the service with this data
-      let responseFromService = await userService.createUser(data);
-      switch(responseFromService.status) {
-        case constants.serviceStatus.USER_CREATED:
-          responseObj.status = 200;
-          responseObj.message = constants.serviceStatus.USER_CREATED;
-          responseObj.body = responseFromService.body;
-          break;
-        default:
-          responseObj = constants.responseObjError;
-          break
-      }
+      //console.log("req.body**", req.body);
+
+      responseObj = await db.insertData(User, data);
+
       return res.status(responseObj.status).send(responseObj)
-    } catch(err) {
+    } catch (err) {
       console.log('Something went wrong: Controller: create user', err);
-      responseObj = constants.responseObjError;
-      return res.status(responseObj.status).send(responseObj)
+     // responseObj = constants.responseObjError(err);
+      return res.status(err.status).json(err)
     }
   };
 }

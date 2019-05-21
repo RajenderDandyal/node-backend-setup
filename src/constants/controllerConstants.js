@@ -1,12 +1,13 @@
-import ServiceConstants from './serviceConstants';
+import DatabaseConstants from './databaseConstants';
 
-class ControllerConstants extends ServiceConstants {
+class ControllerConstants extends DatabaseConstants {
   constructor() {
     super();
     this.controllerStatus = {
-      BAD_REQUEST: 'Required field missing',
+      BAD_REQUEST: 'Bad request from client',
       TOKEN_MISSING: 'Token is missing',
       INVALID_TOKEN: 'Token is invalid',
+      USER_AUTHENTICATED: 'User authenticated',
     };
   }
 }

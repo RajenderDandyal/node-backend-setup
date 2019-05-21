@@ -15,17 +15,20 @@ class DB {
       });
     });
   };
-  insertData = (model)=>{
+  insertData = (Model, data)=>{
     return new Promise((resolve, reject)=>{
      try {
-       model.save().then(doc =>{
-         return resolve({body:doc, status:constants.dataBaseStatus.ENTITY_CREATED})
+       let newDocument = new Model({
+           ...data
+       });
+       newDocument.save().then(doc =>{
+         return resolve({status:200, message:constants.dataBaseStatus.ENTITY_CREATED,body:doc})
        }).catch(err=>{
-         reject({error:err.message, status:constants.dataBaseStatus.DATABASE_ERROR})
+         reject({status:500, message:constants.dataBaseStatus.DATABASE_ERROR, error:err.message})
        })
      }catch (e) {
        console.log('Something went wrong inside: db insertData', e)
-       reject({error:e.message, status:constants.dataBaseStatus.DATABASE_ERROR})
+       reject({status:500, message:constants.dataBaseStatus.DATABASE_ERROR,error:e.message})
      }
     })
   }
