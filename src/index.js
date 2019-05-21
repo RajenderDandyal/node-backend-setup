@@ -12,8 +12,7 @@ const app = express();
 const env = dotEnv.config();
 
 // connect to mongodb
-db
-  .createConnection()
+db.createConnection()
   .then(res => console.log(res))
   .catch(err => console.log(err));
 
@@ -27,7 +26,6 @@ app.use(cors({ origin: helper.corsConfig }));
 
 // routes
 app.use('/api/v1/user', user);
-
 
 // error handling
 
@@ -52,20 +50,19 @@ app.use((error, req, res, next) => {
 });
 
 // log errors to console
-function logErrors (err, req, res, next) {
-  console.error(err.stack)
-  next(err)
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
 }
 // error handling for xhr request
-function clientErrorHandler (err, req, res, next) {
+function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
-    console.log("xhr request");
-    res.status(400).send({ error: err.message })
+    console.log('xhr request');
+    res.status(400).send({ error: err.message });
   } else {
-    next(err)
+    next(err);
   }
 }
-
 
 let port = process.env.PORT || 8081;
 app.listen(port, () => {

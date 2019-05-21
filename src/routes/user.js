@@ -1,6 +1,6 @@
 import express from 'express';
 import userController from '../controllers/userController';
-import userValidation from "../middlewares/validations/userValidation";
+import userValidation from '../middlewares/validations/userValidation';
 
 let router = express.Router();
 
