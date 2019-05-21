@@ -4,7 +4,7 @@ import express from 'express';
 import compression from 'compression';
 import dotEnv from 'dotenv';
 import cors from 'cors';
-import crud  from './db/crud';
+import db from './db/db';
 import helper from './helper/helper';
 import user from './routes/user';
 
@@ -12,7 +12,8 @@ const app = express();
 const env = dotEnv.config();
 
 // connect to mongodb
-crud.createConnection()
+db
+  .createConnection()
   .then(res => console.log(res))
   .catch(err => console.log(err));
 

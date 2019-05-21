@@ -1,5 +1,5 @@
 class DatabaseConstants {
-  constructor(){
+  constructor() {
     this.dataBaseStatus = {
       DATABASE_CONNECT: 'Database connected',
       DATABASE_ERROR: 'Database connection error',
