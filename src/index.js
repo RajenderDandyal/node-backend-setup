@@ -46,8 +46,10 @@ app.use(clientErrorHandler);
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   return res.json({
+    status:error.status || 500,
+    message: error.message,
     error: {
-      message: error.message,
+      error: error.message,
     },
   });
 });
@@ -60,8 +62,8 @@ function logErrors(err, req, res, next) {
 // error handling for xhr request
 function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
-    console.log('xhr request');
-    res.status(400).send({ error: err.message });
+    //console.log('xhr request');
+    res.status(400).send({status: 400, message: "Bad request from client", error: err.message });
   } else {
     next(err);
   }

@@ -34,12 +34,12 @@ class DB {
             reject({
               status: 500,
               message: constants.dataBaseStatus.ENTITY_ERROR,
-              error: err.message,
+              error: {error:err.message},
             });
           });
       } catch (e) {
         console.log('Something went wrong inside: db insertData', e);
-        reject({ status: 500, message: constants.dataBaseStatus.ENTITY_ERROR, error: e.message });
+        reject({ status: 500, message: constants.dataBaseStatus.ENTITY_ERROR, error: {error:e.message}, });
       }
     });
   };
@@ -59,7 +59,7 @@ class DB {
             reject({
               status: 500,
               message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-              error: err.message,
+              error: {error:err.message},
             });
           });
       } catch (e) {
@@ -67,7 +67,7 @@ class DB {
         reject({
           status: 500,
           message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-          error: e.message,
+          error: {error:e.message},
         });
       }
     });
@@ -91,7 +91,7 @@ class DB {
             reject({
               status: 500,
               message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-              error: err.message,
+              error: {error:err.message},
             });
           });
       } catch (e) {
@@ -99,7 +99,7 @@ class DB {
         reject({
           status: 500,
           message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-          error: e.message,
+          error: {error:e.message},
         });
       }
     });
@@ -120,7 +120,7 @@ class DB {
             reject({
               status: 500,
               message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-              error: err.message,
+              error: {error:err.message},
             });
           });
       } catch (e) {
@@ -128,7 +128,7 @@ class DB {
         reject({
           status: 500,
           message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-          error: e.message,
+          error: {error:e.message},
         });
       }
     });
