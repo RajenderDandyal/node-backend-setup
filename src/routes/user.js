@@ -26,9 +26,33 @@ router.post('/test', userController.test);
  * register new user
  * */
 router.post('/register', validation.createUser, userController.createUser);
+/*
+ * path /api/v1/user/list
+ * get
+ * public
+ * list all users or pagination
+ * */
 router.get('/list', validation.skipLimit, userController.list);
+/*
+ * path /api/v1/user/details/:id
+ * get
+ * public
+ * get user details by its id
+ * */
 router.get('/details/:id', validation.pathParams, userController.details);
+/*
+ * path /api/v1/user/update/:id
+ * put
+ * public
+ * update user by its id
+ * */
 router.put('/update/:id', validation.pathParams, validation.createUser, userController.update);
+/*
+ * path /api/v1/user/register
+ * delete
+ * public
+ * delete user by its id
+ * */
 router.delete('/delete/:id', validation.pathParams,  userController.deleteOne);
 
 export default router;
