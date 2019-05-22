@@ -91,6 +91,7 @@ class UserController {
       };
       // console.log("req.body**", req.query.skip, req.query.limit);
 
+      // email is unique .. so if not updating the email .. then filter the email property then call updateOne method
       responseObj = await db.updateOne(User, data);
 
       return res.status(responseObj.status).send(responseObj);
@@ -103,6 +104,28 @@ class UserController {
       return res
         .status(400)
         .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
+    }
+  };
+  deleteOne = async (req, res, next) => {
+    let responseObj = {};
+    try {
+      let data = {
+        query: { _id: mongoose.Types.ObjectId(req.params.id) },
+      };
+      // console.log("req.body**", req.query.skip, req.query.limit);
+
+      responseObj = await db.deleteOne(User, data);
+
+      return res.status(responseObj.status).send(responseObj);
+    } catch (err) {
+      console.log('Something went wrong: Controller: get user details', err);
+      // responseObj = constants.responseObjError(err);
+      if (err.status) {
+        return res.status(err.status).json(err); // error from db
+      }
+      return res
+          .status(400)
+          .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
     }
   };
 }

@@ -104,6 +104,35 @@ class DB {
       }
     });
   };
+  deleteOne = (model, data) => {
+    return new Promise((resolve, reject) => {
+      try {
+        model
+          .findByIdAndRemove(data.query)
+          .then(docs => {
+            return resolve({
+              status: 200,
+              message: constants.dataBaseStatus.ENTITY_DELETED,
+              body: docs,
+            });
+          })
+          .catch(err => {
+            reject({
+              status: 500,
+              message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+              error: err.message,
+            });
+          });
+      } catch (e) {
+        console.log('Something went wrong inside: db insertData', e);
+        reject({
+          status: 500,
+          message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+          error: e.message,
+        });
+      }
+    });
+  };
 }
 
 let db = new DB();
