@@ -1,19 +1,18 @@
 swagger: "2.0"
 info:
-  description: "Node-backend-setup"
+  description: "My Node Rest API doc"
   version: "1.0.0"
-  title: "Node-backend-setup"
+  title: "My Node Rest API doc"
   termsOfService: "http://swagger.io/terms/"
   contact:
-    email: "rajender.0184@gmail.com"
+    email: "rapiddevpro@gmail.com"
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-host: localhost:8081
-basePath: /api/v1
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3002"
+basePath: "/api/v1"
 schemes:
-- http
-- https
+- "http"
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -84,6 +83,7 @@ paths:
       description: "Fetch user detail"
       parameters:
       - name: "userId"
+        required: true
         in: "path"
         description: "User Id whose detail is to be fetched"
         type: "string"
@@ -134,6 +134,7 @@ paths:
       description: "Remove user"
       parameters:
       - name: "userId"
+        required: true
         in: "path"
         description: "id of user who needs to be removed"
         type: "string"
@@ -147,6 +148,77 @@ paths:
         '500':
           description: "Internal Server Error"
 definitions:
+  # A general message schema in case of an error
+  Error:
+    required:
+    - message
+    - status
+    - error
+    properties:
+      status:
+        type: number
+        enum:
+        - 400
+        - 401
+        - 404
+        - 500
+      message:
+        type: string
+        example:  'Bad request from client'
+      error:
+        type: object
+        example:  {"error":'Bad request from client'}
+
+  GeneralResponse:
+    required:
+    - message
+    - status
+    - body
+    properties:
+      status:
+        type: number
+      message:
+        type: string
+      body:
+        type: array
+
+  # user document
+  User:
+    required:
+    - name
+    - phone
+    - email
+    properties:
+      name:
+        type: string
+        minimum:  6
+        maximum:  40
+      email:
+        type: string
+      phone:
+        type: number
+        minimum:  10
+        maximum:  10
+      role:
+        type: number
+        minimum:  1
+        maximum:  1
+    example:
+      {
+        name: 'rajender',
+        email: 'raj123@gm.com',
+        phone: 9996051456,
+        role: 0
+      }
+  # Collection of users
+  Users:
+    type: array
+    items:
+      $ref: "#/definitions/User"
+    minItems: 0
+    maxItems: 12
+
+
   createUserRequest:
     required:
     - "name"
