@@ -3,7 +3,7 @@ import User from '../models/databaseModel/User';
 import constants from '../constants/constants';
 import db from '../db/db';
 import isEmpty from 'lodash/isEmpty';
-import catchErrors from "../helper/catchErrors";
+import catchErrors from '../helper/catchErrors';
 
 class UserController {
   test = (req, res, next) => {
@@ -25,7 +25,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: create user', err);
       // responseObj = constants.responseObjError(err);
-      return catchErrors.catchErrorController(err, req,res)
+      return catchErrors.catchErrorController(err, req, res);
     }
   };
   list = async (req, res, next) => {
@@ -46,7 +46,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: list all user', err);
       // responseObj = constants.responseObjError(err);
-      return catchErrors.catchErrorController(err, req,res)
+      return catchErrors.catchErrorController(err, req, res);
     }
   };
   details = async (req, res, next) => {
@@ -65,7 +65,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: get user details', err);
       // responseObj = constants.responseObjError(err);
-      return catchErrors.catchErrorController(err, req,res)
+      return catchErrors.catchErrorController(err, req, res);
     }
   };
   update = async (req, res, next) => {
@@ -84,7 +84,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: get user details', err);
       // responseObj = constants.responseObjError(err);
-      return catchErrors.catchErrorController(err, req,res)
+      return catchErrors.catchErrorController(err, req, res);
     }
   };
   deleteOne = async (req, res, next) => {
@@ -101,7 +101,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: get user details', err);
       // responseObj = constants.responseObjError(err);
-      return catchErrors.catchErrorController(err, req,res)
+      return catchErrors.catchErrorController(err, req, res);
     }
   };
 }

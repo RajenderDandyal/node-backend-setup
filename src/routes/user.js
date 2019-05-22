@@ -53,6 +53,6 @@ router.put('/update/:id', validation.pathParams, validation.createUser, userCont
  * public
  * delete user by its id
  * */
-router.delete('/delete/:id', validation.pathParams,  userController.deleteOne);
+router.delete('/delete/:id', validation.pathParams, userController.deleteOne);
 
 export default router;
