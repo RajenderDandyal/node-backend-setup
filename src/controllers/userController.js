@@ -3,6 +3,7 @@ import User from '../models/databaseModel/User';
 import constants from '../constants/constants';
 import db from '../db/db';
 import isEmpty from 'lodash/isEmpty';
+import catchErrors from "../helper/catchErrors";
 
 class UserController {
   test = (req, res, next) => {
@@ -24,13 +25,8 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: create user', err);
       // responseObj = constants.responseObjError(err);
-      if (err.status) {
-        return res.status(err.status).json(err); // error from db
+      return catchErrors.catchErrorController(err)
       }
-      return res
-        .status(400)
-        .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
-    }
   };
   list = async (req, res, next) => {
     let responseObj = {};
@@ -50,12 +46,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: list all user', err);
       // responseObj = constants.responseObjError(err);
-      if (err.status) {
-        return res.status(err.status).json(err); // error from db
-      }
-      return res
-        .status(400)
-        .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
+      return catchErrors.catchErrorController(err)
     }
   };
   details = async (req, res, next) => {
@@ -74,12 +65,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: get user details', err);
       // responseObj = constants.responseObjError(err);
-      if (err.status) {
-        return res.status(err.status).json(err); // error from db
-      }
-      return res
-        .status(400)
-        .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
+      return catchErrors.catchErrorController(err)
     }
   };
   update = async (req, res, next) => {
@@ -98,12 +84,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: get user details', err);
       // responseObj = constants.responseObjError(err);
-      if (err.status) {
-        return res.status(err.status).json(err); // error from db
-      }
-      return res
-        .status(400)
-        .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
+      return catchErrors.catchErrorController(err)
     }
   };
   deleteOne = async (req, res, next) => {
@@ -120,12 +101,7 @@ class UserController {
     } catch (err) {
       console.log('Something went wrong: Controller: get user details', err);
       // responseObj = constants.responseObjError(err);
-      if (err.status) {
-        return res.status(err.status).json(err); // error from db
-      }
-      return res
-          .status(400)
-          .send({ status: 400, message: constants.controllerStatus.BAD_REQUEST, error: err.message }); // other error in controller
+      return catchErrors.catchErrorController(err)
     }
   };
 }
