@@ -29,6 +29,6 @@ router.post('/register', validation.createUser, userController.createUser);
 router.get('/list', validation.skipLimit, userController.list);
 router.get('/details/:id', validation.pathParams, userController.details);
 router.put('/update/:id', validation.pathParams, validation.createUser, userController.update);
-router.get('/delete/:id', validation.pathParams,  userController.deleteOne);
+router.delete('/delete/:id', validation.pathParams,  userController.deleteOne);
 
 export default router;
