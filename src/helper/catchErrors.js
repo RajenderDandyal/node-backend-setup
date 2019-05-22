@@ -1,7 +1,7 @@
 import constants from "../constants/constants";
 
 class CatchErrors {
-  catchErrorController = (err)=>{
+  catchErrorController = (err,req,res)=>{
     if (err.status) {
       return res.status(err.status).json(err); // error from db
     }
