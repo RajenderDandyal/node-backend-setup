@@ -4,6 +4,8 @@ import express from 'express';
 import compression from 'compression';
 import dotEnv from 'dotenv';
 import cors from 'cors';
+import expressSanitizer from 'express-sanitizer';
+
 import db from './db/db';
 import helper from './helper/helper';
 import user from './routes/user';
@@ -16,6 +18,7 @@ db.createConnection()
   .then(res => console.log(res))
   .catch(err => console.log(err));
 
+app.use(expressSanitizer());
 app.set('trust proxy'); // for nginx reverse proxy X-forwarded-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,7 +32,7 @@ app.use('/api/v1/user', user);
 
 // error handling
 
-// page not found
+// route not found
 app.use((req, res, next) => {
   const error = new Error('Not found');
   error.message = 'Invalid route';

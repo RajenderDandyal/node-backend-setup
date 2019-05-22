@@ -16,10 +16,16 @@ class UserValidation {
       responseObj.error = error;
       res.status(400).json(responseObj);
     } else {
+      // console.log(req.query.skip, req.query.limit);
+
+      req.body.name = req.sanitize(req.body.name);
+      req.body.pnone = req.sanitize(req.body.phone);
+      //req.body.email = req.sanitize(req.body.email);
+      // console.log(req.query.skip, req.query.limit);
       next();
     }
   };
 }
 
 let userValidation = new UserValidation();
-export default userValidation;
+export default UserValidation;

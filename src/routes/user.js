@@ -1,6 +1,6 @@
 import express from 'express';
 import userController from '../controllers/userController';
-import userValidation from '../middlewares/validations/userValidation';
+import validation from '../middlewares/validations/validation';
 
 let router = express.Router();
 
@@ -25,6 +25,9 @@ router.post('/test', userController.test);
  * public
  * register new user
  * */
-router.post('/register', userValidation.createUser, userController.createUser);
+router.post('/register', validation.createUser, userController.createUser);
+router.get('/list', validation.skipLimit, userController.list);
+router.get('/details/:id', validation.pathParams, userController.details);
+router.put('/update/:id', validation.pathParams, validation.createUser, userController.update);
 
 export default router;
