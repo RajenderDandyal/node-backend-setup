@@ -1,6 +1,8 @@
+import jwtToken from "../helper/jwtToken";
+
 class Auth {
   userAuth = (req, res, next) => {
-    next();
+    return jwtToken.validateToken(req, res, next)
   };
   adminAuth = (req, res, next) => {
     next();

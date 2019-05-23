@@ -1,6 +1,7 @@
 import express from 'express';
 import userController from '../controllers/userController';
 import validation from '../middlewares/validations/validation';
+import auth from "../middlewares/auth";
 
 let router = express.Router();
 
@@ -36,23 +37,30 @@ router.get('/list', validation.skipLimit, userController.list);
 /*
  * path /api/v1/user/details/:id
  * get
- * public
+ * protected
  * get user details by its id
  * */
-router.get('/details/:id', validation.pathParams, userController.details);
+router.get('/details/:id', auth.userAuth, validation.pathParams, userController.details);
 /*
  * path /api/v1/user/update/:id
  * put
- * public
+ * protected
  * update user by its id
  * */
-router.put('/update/:id', validation.pathParams, validation.createUser, userController.update);
+router.put('/update/:id', auth.userAuth, validation.pathParams, validation.createUser, userController.update);
 /*
  * path /api/v1/user/register
  * delete
- * public
+ * protected
  * delete user by its id
  * */
-router.delete('/delete/:id', validation.pathParams, userController.deleteOne);
+router.delete('/delete/:id', auth.userAuth, validation.pathParams, userController.deleteOne);
+/*
+ * path /api/v1/user/auth/:id
+ * auth
+ * public
+ * get auth token
+ * */
+router.get('/auth/:id', userController.auth);
 
 export default router;

@@ -4,13 +4,14 @@ import constants from '../constants/constants';
 import db from '../db/db';
 import isEmpty from 'lodash/isEmpty';
 import catchErrors from '../helper/catchErrors';
+import jwtToken from "../helper/jwtToken";
 
 class UserController {
   test = (req, res, next) => {
     if (isEmpty(req.body)) {
-      return res.status(200).json({ success: true, body: {} });
+      return res.status(200).json({success: true, body: {}});
     }
-    return res.status(200).json({ success: true, body: req.body });
+    return res.status(200).json({success: true, body: req.body});
   };
 
   createUser = async (req, res, next) => {
@@ -35,8 +36,8 @@ class UserController {
         query: {},
         excludeFields: '-role -__v',
         pagination: isEmpty(req.query)
-          ? {}
-          : { skip: parseInt(req.query.skip), limit: parseInt(req.query.limit) },
+            ? {}
+            : {skip: parseInt(req.query.skip), limit: parseInt(req.query.limit)},
       };
       console.log('req.body**', req.query.skip, req.query.limit);
 
@@ -53,7 +54,7 @@ class UserController {
     let responseObj = {};
     try {
       let data = {
-        query: { _id: mongoose.Types.ObjectId(req.params.id) },
+        query: {_id: mongoose.Types.ObjectId(req.params.id)},
         excludeFields: '-role -__v',
         pagination: {},
       };
@@ -72,7 +73,7 @@ class UserController {
     let responseObj = {};
     try {
       let data = {
-        query: { _id: mongoose.Types.ObjectId(req.params.id) },
+        query: {_id: mongoose.Types.ObjectId(req.params.id)},
         doc: req.body,
       };
       // console.log("req.body**", req.query.skip, req.query.limit);
@@ -82,7 +83,7 @@ class UserController {
 
       return res.status(responseObj.status).send(responseObj);
     } catch (err) {
-      console.log('Something went wrong: Controller: get user details', err);
+      console.log('Something went wrong: Controller: update user', err);
       // responseObj = constants.responseObjError(err);
       return catchErrors.catchErrorController(err, req, res);
     }
@@ -91,7 +92,7 @@ class UserController {
     let responseObj = {};
     try {
       let data = {
-        query: { _id: mongoose.Types.ObjectId(req.params.id) },
+        query: {_id: mongoose.Types.ObjectId(req.params.id)},
       };
       // console.log("req.body**", req.query.skip, req.query.limit);
 
@@ -99,7 +100,25 @@ class UserController {
 
       return res.status(responseObj.status).send(responseObj);
     } catch (err) {
-      console.log('Something went wrong: Controller: get user details', err);
+      console.log('Something went wrong: Controller: delete user', err);
+      // responseObj = constants.responseObjError(err);
+      return catchErrors.catchErrorController(err, req, res);
+    }
+  }
+  auth = async (req, res, next) => {
+    let responseObj = {};
+    try {
+      let bearerToken = await jwtToken.generateBearerToken(req.params.id)
+      //console.log(bearerToken)
+      responseObj = {
+        status: 200,
+        message: 'Success',
+        body: [{token: bearerToken}]
+      }
+
+      return res.status(responseObj.status).send(responseObj);
+    } catch (err) {
+      console.log('Something went wrong: Controller: auth', err);
       // responseObj = constants.responseObjError(err);
       return catchErrors.catchErrorController(err, req, res);
     }

@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import constants from '../constants/constants';
+import {isEmpty} from "lodash";
 
 class DB {
   createConnection = () => {
     return new Promise((resolve, reject) => {
-      mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, err => {
+      mongoose.connect(process.env.DATABASE, {useNewUrlParser: true}, err => {
         let responseObj = {};
         if (err) {
           responseObj.status = constants.dataBaseStatus.DATABASE_ERROR;
@@ -22,24 +23,24 @@ class DB {
           ...data,
         });
         newDocument
-          .save()
-          .then(doc => {
-            return resolve({
-              status: 200,
-              message: constants.dataBaseStatus.ENTITY_CREATED,
-              body: doc,
+            .save()
+            .then(doc => {
+              return resolve({
+                status: 200,
+                message: constants.dataBaseStatus.ENTITY_CREATED,
+                body: doc,
+              });
+            })
+            .catch(err => {
+              reject({
+                status: 500,
+                message: constants.dataBaseStatus.ENTITY_ERROR,
+                error: {error: err.message},
+              });
             });
-          })
-          .catch(err => {
-            reject({
-              status: 500,
-              message: constants.dataBaseStatus.ENTITY_ERROR,
-              error: {error:err.message},
-            });
-          });
       } catch (e) {
         console.log('Something went wrong inside: db insertData', e);
-        reject({ status: 500, message: constants.dataBaseStatus.ENTITY_ERROR, error: {error:e.message}, });
+        reject({status: 500, message: constants.dataBaseStatus.ENTITY_ERROR, error: {error: e.message},});
       }
     });
   };
@@ -47,27 +48,34 @@ class DB {
     return new Promise((resolve, reject) => {
       try {
         model
-          .find(data.query, data.excludeFields, data.pagination)
-          .then(docs => {
-            return resolve({
-              status: 200,
-              message: constants.dataBaseStatus.DATA_FETCHED,
-              body: docs,
+            .find(data.query, data.excludeFields, data.pagination)
+            .then(docs => {
+              if (isEmpty(docs)){
+                return reject({
+                  status: 400,
+                  message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+                  error: {error: "data not found"},
+                });
+              }
+              return resolve({
+                status: 200,
+                message: constants.dataBaseStatus.DATA_FETCHED,
+                body: docs,
+              });
+            })
+            .catch(err => {
+              reject({
+                status: 500,
+                message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+                error: {error: err.message},
+              });
             });
-          })
-          .catch(err => {
-            reject({
-              status: 500,
-              message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-              error: {error:err.message},
-            });
-          });
       } catch (e) {
         console.log('Something went wrong inside: db insertData', e);
         reject({
           status: 500,
           message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-          error: {error:e.message},
+          error: {error: e.message},
         });
       }
     });
@@ -79,27 +87,34 @@ class DB {
     return new Promise((resolve, reject) => {
       try {
         model
-          .findByIdAndUpdate(data.query, data.doc, { new: true, runValidators: false })
-          .then(docs => {
-            return resolve({
-              status: 200,
-              message: constants.dataBaseStatus.ENTITY_MODIFIED,
-              body: docs,
+            .findByIdAndUpdate(data.query, data.doc, {new: true, runValidators: false})
+            .then(docs => {
+              if (isEmpty(docs)){
+                return reject({
+                  status: 400,
+                  message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+                  error: {error: "data not found"},
+                });
+              }
+              return resolve({
+                status: 200,
+                message: constants.dataBaseStatus.ENTITY_MODIFIED,
+                body: docs,
+              });
+            })
+            .catch(err => {
+              reject({
+                status: 500,
+                message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+                error: {error: err.message},
+              });
             });
-          })
-          .catch(err => {
-            reject({
-              status: 500,
-              message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-              error: {error:err.message},
-            });
-          });
       } catch (e) {
         console.log('Something went wrong inside: db insertData', e);
         reject({
           status: 500,
           message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-          error: {error:e.message},
+          error: {error: e.message},
         });
       }
     });
@@ -108,27 +123,34 @@ class DB {
     return new Promise((resolve, reject) => {
       try {
         model
-          .findByIdAndRemove(data.query)
-          .then(docs => {
-            return resolve({
-              status: 200,
-              message: constants.dataBaseStatus.ENTITY_DELETED,
-              body: docs,
+            .findByIdAndRemove(data.query)
+            .then(docs => {
+              if (isEmpty(docs)){
+                return reject({
+                  status: 400,
+                  message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+                  error: {error: "data not found"},
+                });
+              }
+              return resolve({
+                status: 200,
+                message: constants.dataBaseStatus.ENTITY_DELETED,
+                body: docs,
+              });
+            })
+            .catch(err => {
+              reject({
+                status: 500,
+                message: constants.dataBaseStatus.DATA_FETCH_ERROR,
+                error: {error: err.message},
+              });
             });
-          })
-          .catch(err => {
-            reject({
-              status: 500,
-              message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-              error: {error:err.message},
-            });
-          });
       } catch (e) {
         console.log('Something went wrong inside: db insertData', e);
         reject({
           status: 500,
           message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-          error: {error:e.message},
+          error: {error: e.message},
         });
       }
     });
