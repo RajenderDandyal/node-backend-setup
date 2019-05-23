@@ -5,6 +5,7 @@ import compression from 'compression';
 import dotEnv from 'dotenv';
 import cors from 'cors';
 import expressSanitizer from 'express-sanitizer';
+import swaggerUi from "swagger-ui-express";
 
 import db from './db/db';
 import helper from './helper/helper';
@@ -26,8 +27,10 @@ app.use(compression());
 
 // cors setup
 app.use(cors({ origin: helper.corsConfig }));
-
+// load json from swagger.yaml
+let swaggerDocument = require("json-loader!yaml-loader!./swagger/swagger.yaml");
 // routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/api/v1/user', user);
 
 // error handling

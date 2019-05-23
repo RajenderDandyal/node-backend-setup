@@ -1,15 +1,15 @@
 swagger: "2.0"
 info:
-  description: "My Node Rest API doc"
+  description: "Node-backend-setup"
   version: "1.0.0"
-  title: "My Node Rest API doc"
+  title: "Node-backend-setup"
   termsOfService: "http://swagger.io/terms/"
   contact:
-    email: "rapiddevpro@gmail.com"
+    email: "raj@gmail.com"
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "localhost:3002"
+host: "localhost:8081"
 basePath: "/api/v1"
 schemes:
 - "http"
@@ -45,8 +45,6 @@ paths:
           description: "Internal Server Error"
   "/user/list":
     get:
-      security:
-      - Bearer: []
       tags:
       - "User Module"
       summary: "Fetch user list"
@@ -98,15 +96,15 @@ paths:
           description: "Bad Request - Required fields not present"
         '500':
           description: "Internal Server Error"
-  "/user/authenticate":
+  "/user/auth":
     post:
-      security:
-      - Bearer: []
       tags:
       - "User Module"
       summary: "Authenticate user"
       description: "Authenticate user"
+
       parameters:
+      # depends on project to project like auth header cookie  body etc
       - in: "body"
         name: "authenticateUserRequest"
         description: "authenticateUserRequest"
@@ -124,7 +122,7 @@ paths:
           description: "Bad Request - Required fields not present"
         '500':
           description: "Internal Server Error"
-  "/user/remove/{userId}":
+  "/user/delete/{userId}":
     delete:
       security:
       - Bearer: []
@@ -183,6 +181,7 @@ definitions:
         type: array
 
   # user document
+  # always create document and collection as done below then use $ref to attach to any query
   User:
     required:
     - name
@@ -222,17 +221,28 @@ definitions:
   createUserRequest:
     required:
     - "name"
-    - "password"
+    - "phone"
+    - "email"
     properties:
       name:
         type: "string"
+        minimum:  6
+        maximum:  50
         description: "name of user"
-      password:
+        example:  "rajender dandyal"
+      email:
         type: "string"
-        description: "password of the user"
+        minimum:  6
+        maximum:  20
+        description: "email of the user"
+        example: "raj123@gm.com"
       phone:
         type: "string"
+        minimum:  10
+        maximum:  10
         description: "Phone no. of user"
+        example:  "123456789"
+
   createUserResponse:
     type: "object"
     properties:
@@ -241,12 +251,9 @@ definitions:
       message:
         type: "string"
       body:
-        type: "object"
-        properties:
-          results:
-            type: "array"
-            items:
-              type: "object"
+        type: "array"
+        items:
+          $ref: "#/definitions/User"
   FetchCustomerListResponse:
     type: "object"
     properties:
@@ -255,7 +262,7 @@ definitions:
       message:
         type: "string"
       body:
-        type: "object"
+        $ref: "#/definitions/Users"
   FetchUserDetailResponse:
     type: "object"
     properties:
@@ -264,30 +271,19 @@ definitions:
       message:
         type: "string"
       body:
-        type: "object"
-  changeUserPasswordRequest:
-    required:
-    - "userId"
-    - "currentPassword"
-    - "newPassword"
-    properties:
-      userId:
-        type: "string"
-        description: "userLoginId of user"
-      currentPassword:
-        type: "string"
-        description: "password of the user"
-      newPassword:
-        type: "string"
-        description: "user type such as customer or admin"
+        type: "array"
+        items:
+          $ref: "#/definitions/User"
   authenticateUserRequest:
     required:
     - "name"
-    - "password"
+    - "email"
+    - "_id"
     properties:
       name:
         type: "string"
         description: "name of user"
-      password:
+      email:
         type: "string"
-        description: "password of the user"
+        description: "email of the user"
+
