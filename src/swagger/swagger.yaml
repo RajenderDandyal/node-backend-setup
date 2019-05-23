@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "Node-backend-setup"
+  description: "Didn't updated all routes to exactly match the actual route... see routes/user.js for detail"
   version: "1.0.0"
   title: "Node-backend-setup"
   termsOfService: "http://swagger.io/terms/"
