@@ -73,7 +73,7 @@ class UserController {
     let responseObj = {};
     try {
       let data = {
-        query: {_id: mongoose.Types.ObjectId(req.params.id)},
+        query: {_id: mongoose.Types.ObjectId(req.user._id)},
         doc: req.body,
       };
       // console.log("req.body**", req.query.skip, req.query.limit);
@@ -92,7 +92,7 @@ class UserController {
     let responseObj = {};
     try {
       let data = {
-        query: {_id: mongoose.Types.ObjectId(req.params.id)},
+        query: {_id: mongoose.Types.ObjectId(req.user.id)},
       };
       // console.log("req.body**", req.query.skip, req.query.limit);
 
@@ -114,7 +114,7 @@ class UserController {
         status: 200,
         message: 'Success',
         body: [{token: bearerToken}]
-      }
+      };
 
       return res.status(responseObj.status).send(responseObj);
     } catch (err) {

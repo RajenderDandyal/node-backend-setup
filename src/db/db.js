@@ -51,10 +51,10 @@ class DB {
             .find(data.query, data.excludeFields, data.pagination)
             .then(docs => {
               if (isEmpty(docs)){
-                return reject({
-                  status: 400,
-                  message: constants.dataBaseStatus.DATA_FETCH_ERROR,
-                  error: {error: "data not found"},
+                return resolve({
+                  status: 200,
+                  message: constants.dataBaseStatus.DATA_NOTHING_FOUND,
+                  body: []
                 });
               }
               return resolve({
